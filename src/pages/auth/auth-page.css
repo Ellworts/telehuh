@@ -1,0 +1,105 @@
+@import url('https://fonts.cdnfonts.com/css/minecraftia');
+* {
+  font-family: 'Minecraftia', sans-serif;
+}
+
+body {
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-size: cover;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  text-align: center;
+}
+
+.auth-container h2 {
+  margin-bottom: 20px;
+}
+
+.auth-container input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-container button:hover {
+  background-color: #45a049;
+}
+
+.auth-container .error {
+  color: red;
+  margin: 0px;
+  text-shadow: 
+    2px 2px 0 rgba(0, 0, 0, 0.2),  /* Обводка справа и снизу */
+    -2px -2px 0 rgba(0, 0, 0, 0.2), /* Обводка слева и сверху */
+    2px -2px 0 rgba(0, 0, 0, 0.2),  /* Обводка справа и сверху */
+    -2px 2px 0 rgba(0, 0, 0, 0.2);  /* Обводка слева и снизу */
+}
+
+.auth-container img {
+  margin-top: 10px;
+  background-color: #ffffff; /* Google blue background */
+  padding: 5px; /* Increase background size */
+  border-radius: 10px; /* Add border-radius */
+  cursor: pointer; /* Add cursor pointer to the image */
+  transition: transform 0.2s ease; /* Add transition for smooth animation */
+}
+
+.auth-container img:hover {
+  transform: scale(1.1); /* Scale up the icon on hover */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 400px;
+  padding: 20px;
+  border-radius: 10px;
+  background: url('./media/reg-form.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+input {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
