@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase/firebase-config';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 import './auth-page.css';
+
+const db = getFirestore();
 
 function AuthForm() {
   const [email, setEmail] = useState('');
@@ -11,12 +14,42 @@ function AuthForm() {
   const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      if (user) {
+        navigate('/edit');
+      }
+    });
+    return unsubscribe;
+  }, [navigate]);
+
+  const createUserDocument = async (user, isGoogleSignIn = false) => {
+    try {
+      const userDoc = doc(db, 'users', user.uid);
+      const userSnapshot = await getDoc(userDoc);
+
+      if (!userSnapshot.exists()) {
+        await setDoc(userDoc, {
+          name: isGoogleSignIn ? user.displayName : user.email,
+          bio: '',
+          email: user.email,
+          userPic: 'https://cdn.discordapp.com/attachments/1190422512153133187/1341814821552918549/default-avatar.jpg?ex=67b75def&is=67b60c6f&hm=ebb4825cdc90635b046b924a384f94b7659160bf9a63f2d425fd39671c831122&'
+        });
+      }
+    } catch (err) {
+      console.error("Error creating user document:", err);
+      setError("Failed to create user document");
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate('/profile'); // Ensure this line is present
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      await createUserDocument(userCredential.user);
+      window.location.reload(); // Reload the page after login
     } catch (err) {
+      console.error("Error during login:", err);
       setError('Invalid email/password');
     }
   };
@@ -24,9 +57,11 @@ function AuthForm() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate('/profile');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await createUserDocument(userCredential.user);
+      window.location.reload(); // Reload the page after registration
     } catch (err) {
+      console.error("Error during registration:", err);
       setError('Invalid email/password');
     }
   };
@@ -34,9 +69,11 @@ function AuthForm() {
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
-      navigate('/profile'); // Add this line
+      const userCredential = await signInWithPopup(auth, provider);
+      await createUserDocument(userCredential.user, true);
+      window.location.reload(); // Reload the page after Google sign-in
     } catch (err) {
+      console.error("Error during Google sign-in:", err);
       setError(err.message);
     }
   };

@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { auth } from './firebase/firebase-config';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import './App.css';
 import AuthForm from './pages/auth/auth-page';
 import Profile from './pages/profile/profile';
 
+const db = getFirestore();
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       setIsAuthenticated(!!user);
+      setUser(user);
     });
     return unsubscribe;
   }, []);
@@ -18,27 +23,53 @@ function App() {
   return (
     <Router>
       <div className="App">
-        {isAuthenticated && <LogoutIcon />}
+        {isAuthenticated && <UserInfo user={user} />}
         <Routes>
           <Route path="/" element={<AuthForm />} />
-          <Route path="/profile" element={isAuthenticated ? <Profile /> : <AuthForm />} />
+          <Route path="/edit" element={isAuthenticated ? <Profile /> : <AuthForm />} />
         </Routes>
       </div>
     </Router>
   );
 }
 
-function LogoutIcon() {
+function UserInfo({ user }) {
+  const [showLogout, setShowLogout] = useState(false);
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userDoc = doc(db, 'users', user.uid);
+      const userSnapshot = await getDoc(userDoc);
+      if (userSnapshot.exists()) {
+        setUserData(userSnapshot.data());
+      }
+    };
+
+    fetchUserData();
+  }, [user]);
 
   const handleLogout = async () => {
     await auth.signOut();
     navigate('/');
   };
 
+  if (!userData) {
+    return null;
+  }
+
   return (
-    <div className="logout-icon" onClick={handleLogout} style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }}>
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/logout/logout-original.svg" alt="Logout" style={{ width: '26px', height: '26px' }} />
+    <div className="user-info" style={{ position: 'absolute', top: '10px', right: '25px', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+      <div onClick={() => setShowLogout(!showLogout)} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+        {userData.userPic && <img src={userData.userPic} alt="User" style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }} />}
+        <span>{userData.name}</span>
+      </div>
+      {showLogout && (
+        <div className="logout-icon" onClick={handleLogout} style={{ cursor: 'pointer', marginLeft: '40px', fontSize: '0.8em', transition: 'opacity 0.3s ease-in-out', opacity: showLogout ? 1 : 0 }}>
+          Logout
+        </div>
+      )}
     </div>
   );
 }
