@@ -50,6 +50,19 @@ function UserInfo({ user }) {
     fetchUserData();
   }, [user]);
 
+  useEffect(() => {
+    const logoutIcon = document.querySelector('.logout-icon');
+    if (logoutIcon) {
+      if (showLogout) {
+        logoutIcon.style.maxHeight = '20px';
+        logoutIcon.style.opacity = 1;
+      } else {
+        logoutIcon.style.maxHeight = '0';
+        logoutIcon.style.opacity = 0;
+      }
+    }
+  }, [showLogout]);
+
   const handleLogout = async () => {
     await auth.signOut();
     navigate('/');
@@ -65,11 +78,9 @@ function UserInfo({ user }) {
         {userData.userPic && <img src={userData.userPic} alt="User" style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }} />}
         <span>{userData.name}</span>
       </div>
-      {showLogout && (
-        <div className="logout-icon" onClick={handleLogout} style={{ cursor: 'pointer', marginLeft: '40px', fontSize: '0.8em', transition: 'opacity 0.3s ease-in-out', opacity: showLogout ? 1 : 0 }}>
-          Logout
-        </div>
-      )}
+      <div className="logout-icon" onClick={handleLogout} style={{ cursor: 'pointer', marginLeft: '40px', fontSize: '0.8em', maxHeight: '0', overflow: 'hidden', transition: 'max-height 0.3s ease-in-out, opacity 0.3s ease-in-out', opacity: 0 }}>
+        Logout
+      </div>
     </div>
   );
 }

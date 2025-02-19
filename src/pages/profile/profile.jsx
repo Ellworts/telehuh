@@ -35,6 +35,19 @@ function Profile() {
     fetchUserProfile();
   }, []);
 
+  useEffect(() => {
+    const avatarGrid = document.querySelector('.avatar-grid');
+    if (avatarGrid) {
+      if (showAvatarGrid) {
+        avatarGrid.style.maxHeight = '500px'; // Adjusted maxHeight to ensure it slides out fully
+        avatarGrid.style.opacity = 1;
+      } else {
+        avatarGrid.style.maxHeight = '0';
+        avatarGrid.style.opacity = 0;
+      }
+    }
+  }, [showAvatarGrid]);
+
   const handleSave = async () => {
     if (user) {
       try {
@@ -63,18 +76,16 @@ function Profile() {
       <div className="profile-pic">
         <img src={userPic} alt="User Avatar" />
         <button className="change-avatar-button" onClick={() => setShowAvatarGrid(!showAvatarGrid)}>Change Avatar</button>
-        {showAvatarGrid && (
-          <div className="avatar-grid">
-            {avatarsData.avatars.map((avatar, index) => (
-              <img
-                key={index}
-                src={avatar}
-                alt={`Avatar ${index}`}
-                onClick={() => handleAvatarChange(avatar)}
-              />
-            ))}
-          </div>
-        )}
+        <div className="avatar-grid" style={{ maxHeight: '0', overflow: 'hidden', transition: 'max-height 0.3s ease-in-out, opacity 0.3s ease-in-out', opacity: 0 }}>
+          {avatarsData.avatars.map((avatar, index) => (
+            <img
+              key={index}
+              src={avatar}
+              alt={`Avatar ${index}`}
+              onClick={() => handleAvatarChange(avatar)}
+            />
+          ))}
+        </div>
       </div>
       <div className="profile-info">
         <label>
