@@ -10,6 +10,41 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
+  overflow: hidden; /* Prevent vertical scroll */
+}
+
+body::before {
+  content: '';
+  position: fixed; /* Change to fixed to cover the entire viewport */
+  top: 0;
+  left: -1;
+  width: 101vw; /* Ensure it covers the full width */
+  height: 101vh; /* Ensure it covers the full height */
+  background: inherit;
+  filter: blur(5px); /* Add blur effect */
+  z-index: -1;
+}
+
+.auth-page {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 102vh;
+  width: 101vw;
+  overflow: hidden; /* Prevent vertical scroll */
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./media/reg-bg.webp') no-repeat center center;
+  background-size: cover;
+  filter: blur(5px); /* Add blur effect */
+  z-index: -1;
 }
 
 .auth-container {
@@ -47,10 +82,19 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  position: relative; /* Required for the underline effect */
+  overflow: hidden; /* Hide the underline before animation */
+  transition: transform 0.2s ease; /* Add transition for smooth animation */
 }
 
 .auth-container button:hover {
-  background-color: #45a049;
+  background-color: #45a049; /* Existing hover background color */
+  transform: translateY(-2px); /* Lift text on hover */
+}
+
+/* Remove underline effect */
+.auth-container button::after {
+  content: none;
 }
 
 .auth-container .error {
@@ -97,6 +141,18 @@ button {
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
+  position: relative; /* Required for the underline effect */
+  overflow: hidden; /* Hide the underline before animation */
+  transition: transform 0.2s ease; /* Add transition for smooth animation */
+}
+
+button:hover {
+  transform: translateY(-2px); /* Lift text on hover */
+}
+
+/* Remove underline effect */
+button::after {
+  content: none;
 }
 
 .error {

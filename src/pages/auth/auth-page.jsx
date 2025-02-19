@@ -79,51 +79,54 @@ function AuthForm() {
   };
 
   return (
-    <div className="auth-container">
-      {isRegistering ? (
-        <form onSubmit={handleRegister}>
-          <h2>Register</h2>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {error && <p className="error">{error}</p>}
-          <button type="submit">Register</button>
-          <button type="button" onClick={() => setIsRegistering(false)}>Already have an account? Login</button>
-        </form>
-      ) : (
-        <form onSubmit={handleLogin}>
-          <h2>Login</h2>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {error && <p className="error">{error}</p>}
-          <button type="submit">Login</button>
-          <button type="button" onClick={() => setIsRegistering(true)}>New here? Register</button>
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <div onClick={handleGoogleSignIn} style={{ cursor: 'pointer' }}>
-              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg" alt="Google Sign In" style={{ width: '26px', height: '26px' }} />
+    <div className="auth-page">
+      <div className="background"></div>
+      <div className="auth-container">
+        {isRegistering ? (
+          <form onSubmit={handleRegister}>
+            <h2>Register</h2>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {error && <p className="error">{error}</p>}
+            <button type="submit">Register</button>
+            <button type="button" onClick={() => setIsRegistering(false)}>Already have an account? Login</button>
+          </form>
+        ) : (
+          <form onSubmit={handleLogin}>
+            <h2>Login</h2>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {error && <p className="error">{error}</p>}
+            <button type="submit">Login</button>
+            <button type="button" onClick={() => setIsRegistering(true)}>New here? Register</button>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <div onClick={handleGoogleSignIn} style={{ cursor: 'pointer' }}>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg" alt="Google Sign In" style={{ width: '26px', height: '26px' }} />
+              </div>
             </div>
-          </div>
-        </form>
-      )}
+          </form>
+        )}
+      </div>
     </div>
   );
 }
