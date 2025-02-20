@@ -1,17 +1,4 @@
 @import url('https://fonts.cdnfonts.com/css/minecraftia');
-* {
-  font-family: 'Minecraftia', sans-serif;
-}
-
-body {
-  background-color: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden; /* Prevent vertical scroll */
-}
 
 body::before {
   content: '';
@@ -71,7 +58,6 @@ body::before {
   border: 1px solid #ccc;
   border-radius: 4px;
   display: block;
-  outline: none; /* Remove blue outline */
 }
 
 .auth-container button {
@@ -136,7 +122,6 @@ input {
   margin-bottom: 10px;
   padding: 10px;
   font-size: 16px;
-  outline: none;
 }
 
 button {
