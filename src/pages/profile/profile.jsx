@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { auth } from '../../firebase/firebase-config';
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 import avatarsData from '../../data/avatars.json';
 import './profile.css';
 
@@ -16,6 +17,7 @@ function Profile() {
   const [error, setError] = useState('');
   const [showAvatarGrid, setShowAvatarGrid] = useState(false);
   const avatarGridRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -72,7 +74,7 @@ function Profile() {
           bio: bio,
           userPic: userPic
         });
-        window.location.reload(); // Reload the page after saving
+        navigate('/my-page');
       } catch (err) {
         console.error("Error updating profile:", err);
         setError("Failed to update profile");
@@ -91,7 +93,7 @@ function Profile() {
       <div className="profile-grid">
         <div className="avatar-card">
           <div className="profile-pic">
-            <img src={hoveredAvatar || userPic} alt="User Avatar" className="avatar-image" />
+            <img src={hoveredAvatar || userPic} alt="User Avatar" className="avatar-image" loading="lazy" />
           </div>
           <button className="change-avatar-button" onClick={() => setShowAvatarGrid(!showAvatarGrid)}>Change Avatar</button>
           <div className="avatar-grid" ref={avatarGridRef}>
@@ -103,6 +105,7 @@ function Profile() {
                 onMouseEnter={() => setHoveredAvatar(avatar)}
                 onMouseLeave={() => setHoveredAvatar('')}
                 onClick={() => handleAvatarChange(avatar)}
+                loading="lazy"
               />
             ))}
           </div>

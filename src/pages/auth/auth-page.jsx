@@ -33,7 +33,7 @@ function AuthForm() {
           name: isGoogleSignIn ? user.displayName : user.email,
           bio: '',
           email: user.email,
-          userPic: 'https://cdn.discordapp.com/attachments/1190422512153133187/1341814821552918549/default-avatar.jpg?ex=67b75def&is=67b60c6f&hm=ebb4825cdc90635b046b924a384f94b7659160bf9a63f2d425fd39671c831122&'
+          userPic: 'https://i.imgur.com/sgrdLah.jpeg'
         });
       }
     } catch (err) {
