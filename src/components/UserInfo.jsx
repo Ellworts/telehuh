@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { auth } from '../firebase/firebase-config';
 import UserMenu from './UserMenu';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const db = getFirestore();
 
@@ -26,10 +27,12 @@ function UserInfo({ user }) {
   const handleLogout = async () => {
     await auth.signOut();
     navigate('/');
+    setShowMenu(false);
   };
 
   const editProfile = () => {
     navigate('/edit');
+    setShowMenu(false);
   };
 
   if (!userData) {
@@ -42,7 +45,18 @@ function UserInfo({ user }) {
         {userData.userPic && <img src={userData.userPic} alt="User" style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px' }} />}
         <span>{userData.name}</span>
       </div>
-      {showMenu && <UserMenu onLogout={handleLogout} onEditProfile={editProfile} />}
+      <AnimatePresence>
+        {showMenu && (
+          <motion.div
+            initial={{ maxHeight: 0, opacity: 0 }}
+            animate={{ maxHeight: 100, opacity: 1 }}
+            exit={{ maxHeight: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <UserMenu onLogout={handleLogout} onEditProfile={editProfile} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

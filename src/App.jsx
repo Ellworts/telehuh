@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { auth } from './firebase/firebase-config';
-import './App.css';
+import './App.scss';
 import AuthForm from './pages/auth/auth-page';
 import Profile from './pages/profile/profile';
 import Header from './components/Header'; // Import Header component
@@ -26,12 +26,16 @@ function App() {
         {isAuthenticated && <Header user={user} />}
         <Routes>
           <Route path="/" element={<AuthForm />} />
-          <Route path="/edit" element={isAuthenticated ? <Profile /> : <AuthForm />} />
-          <Route path='/my-page' element={<MyPage />} />
+          <Route path="/my-page" element={<PrivateRoute isAuthenticated={isAuthenticated}><MyPage /></PrivateRoute>} />
+          <Route path='/edit' element={<PrivateRoute isAuthenticated={isAuthenticated}><Profile /></PrivateRoute>} />
         </Routes>
       </div>
     </Router>
   );
+}
+
+function PrivateRoute({ isAuthenticated, children }) {
+  return isAuthenticated ? children : <Navigate to="/" />;
 }
 
 export default App;

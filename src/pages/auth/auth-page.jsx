@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase/firebase-config';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
-import './auth-page.css';
+import './auth-page.scss';
 
 const db = getFirestore();
 
@@ -17,7 +17,7 @@ function AuthForm() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        navigate('/edit');
+        navigate('/my-page');
       }
     });
     return unsubscribe;
@@ -47,7 +47,7 @@ function AuthForm() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       await createUserDocument(userCredential.user);
-      window.location.reload(); // Reload the page after login
+      window.location.reload();
     } catch (err) {
       console.error("Error during login:", err);
       setError('Invalid email/password');
@@ -59,7 +59,7 @@ function AuthForm() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await createUserDocument(userCredential.user);
-      window.location.reload(); // Reload the page after registration
+      window.location.reload();
     } catch (err) {
       console.error("Error during registration:", err);
       setError('Invalid email/password');
@@ -71,7 +71,7 @@ function AuthForm() {
     try {
       const userCredential = await signInWithPopup(auth, provider);
       await createUserDocument(userCredential.user, true);
-      window.location.reload(); // Reload the page after Google sign-in
+      window.location.reload();
     } catch (err) {
       console.error("Error during Google sign-in:", err);
       setError(err.message);

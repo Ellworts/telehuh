@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from '../../firebase/firebase-config';
 import { getFirestore, doc, getDoc, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore';
-import './my-page.css';
+import './my-page.scss';
 
 const db = getFirestore();
 
@@ -126,16 +126,16 @@ const PostsList = ({ posts }) => (
   <div className="posts-list">
     {posts.length > 0 ? (
       posts.slice(0, 10).map(post => ( // Show only the latest 10 posts
-        <div key={post.id} className="post">
-          <div className="post-image-container">
-            {post.imageUrl && <img src={post.imageUrl} alt="Post" className="post-image" />}
-          </div>
-          <div className="post-content">
+        <div key={post.id} className="post-wrapper">
+          <div className="post">
             <div className="post-header">
               <img src={post.userPic} alt="User Avatar" className="post-avatar" /> {/* Display userPic */}
               <p><strong>{post.username}</strong></p>
             </div>
-            <p className='post-description'>{post.content}</p>
+            <div className="post-content">
+              {post.imageUrl && <img src={post.imageUrl} alt="Post" className="post-image" />}
+              <p className='post-description'>{post.content}</p>
+            </div>
           </div>
         </div>
       ))

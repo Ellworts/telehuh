@@ -1,12 +1,15 @@
+@import './styles/variables';
+
 * {
-  font-family: 'Minecraftia', sans-serif;
+  font-family: $font-family;
 }
 
 body {
   display: flex;
   height: 100vh;
   margin: 0;
-  overflow: hidden; /* Prevent vertical scroll */
+  overflow: hidden;
+  /* Prevent vertical scroll */
 }
 
 .App-logo {
@@ -27,7 +30,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: $font-size;
   color: white;
 }
 
@@ -39,6 +42,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -51,22 +55,28 @@ body {
   width: 100%;
   background-color: #282c34;
   padding: 10px;
-  position: fixed; /* Fix the header at the top */
-  top: 0; /* Align it to the top */
+  position: fixed;
+  /* Fix the header at the top */
+  top: 0;
+  /* Align it to the top */
   left: 0;
   right: 0;
-  z-index: 1000; /* Ensure it stays above other content */
+  z-index: 1000;
+  /* Ensure it stays above other content */
 }
 
 .user-info {
   color: white;
   margin-right: 50px;
-  position: relative; /* Ensure relative positioning for absolute children */
+  position: relative;
+  /* Ensure relative positioning for absolute children */
 }
 
 .logout-icon {
-  position: absolute; /* Make the logout button absolutely positioned */
-  top: 100%; /* Position it below the user info */
+  position: absolute;
+  /* Make the logout button absolutely positioned */
+  top: 100%;
+  /* Position it below the user info */
   left: 50%;
   transform: translateX(-50%);
   cursor: pointer;
@@ -75,4 +85,10 @@ body {
   overflow: hidden;
   transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
   opacity: 0;
+}
+
+.App {
+  // Use variables and mixins
+  font-family: $font-family;
+  // ...existing styles...
 }

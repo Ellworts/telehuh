@@ -1,6 +1,6 @@
 import React from 'react';
 import UserInfo from './UserInfo';
-import '../App.css';
+import '../App.scss';
 
 function Header({ user }) {
   return (

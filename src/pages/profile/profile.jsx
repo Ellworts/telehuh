@@ -3,7 +3,7 @@ import { auth } from '../../firebase/firebase-config';
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import avatarsData from '../../data/avatars.json';
-import './profile.css';
+import './profile.scss';
 
 const db = getFirestore();
 
